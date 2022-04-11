@@ -9,7 +9,7 @@ Requirements
 
 * Technologies used
     * [Kotlin](https://kotlinlang.org/)
-    * [Compose](https://developer.android.com/jetpack/compose) Because **COMPOSE IS FINALLY STABLE**
+    * [Compose](https://developer.android.com/jetpack/compose)
     * [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html)
     * [Flow](https://kotlinlang.org/docs/reference/coroutines/flow.html)
     * [KOIN](https://insert-koin.io/)
