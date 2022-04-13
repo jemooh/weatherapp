@@ -5,7 +5,7 @@ import com.jkirwa.weatherapp.data.local.model.Weather
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface WeatherDao: CoroutineBaseDao<Weather> {
-    @Query("SELECT * FROM Weather ")
-    fun getCurrentWeather(): Flow<List<Weather>>
+interface WeatherDao : CoroutineBaseDao<Weather> {
+    @Query("SELECT * FROM Weather ORDER BY dt DESC LIMIT 1 ")
+    fun getCurrentWeather(): Flow<Weather>
 }

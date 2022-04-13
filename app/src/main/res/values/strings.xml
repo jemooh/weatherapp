@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Weather App</string>
+
+    <string name="label_location_title">Location Permission</string>
+    <string name="label_location_message">Current Location is required to display weather. Please permit the permission through
+        Settings screen.\n\nSelect Permissions -> Enable permission</string>
+    <string name="btn_permit_manually">Permit Manually</string>
+
+    <string name="location_service_title">Location turned off</string>
+    <string name="location_service_sms">Please turn on location services to continue</string>
+    <string name="location_service_yes">Turn on</string>
+
 </resources>

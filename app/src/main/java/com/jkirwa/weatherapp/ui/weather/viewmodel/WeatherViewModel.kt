@@ -24,7 +24,7 @@ class WeatherViewModel(private val weatherRepository: WeatherRepository) :
         }
     }
 
-    fun getCurrentWeather(): Flow<List<Weather>> {
+    fun getCurrentWeather(): Flow<Weather> {
         return weatherRepository.getCurrentWeather()
     }
 

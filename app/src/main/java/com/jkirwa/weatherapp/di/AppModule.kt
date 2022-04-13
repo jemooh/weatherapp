@@ -1,12 +1,15 @@
 package com.jkirwa.weatherapp.di
 
+import android.content.Context
 import androidx.room.Room
+import com.jkirwa.weatherapp.data.local.datasource.SharedPreferences
 import com.jkirwa.weatherapp.data.local.datasource.WeatherDatabase
 import com.jkirwa.weatherapp.data.remote.api.WeatherApiService
 import com.jkirwa.weatherapp.data.repository.WeatherRepository
 import com.jkirwa.weatherapp.data.repository.WeatherRepositoryImpl
 import com.jkirwa.weatherapp.ui.weather.viewmodel.WeatherViewModel
 import com.jkirwa.weatherapp.utils.Constants
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -48,5 +51,11 @@ val appModule = module {
 
     viewModel {
         WeatherViewModel(weatherRepository = get())
+    }
+    single {
+        androidApplication().getSharedPreferences("PREFERENCES", Context.MODE_PRIVATE)
+    }
+    single {
+        SharedPreferences(get())
     }
 }

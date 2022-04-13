@@ -77,7 +77,7 @@ internal class WeatherRepositoryImpl(
         }
     }
 
-    override fun getCurrentWeather(): Flow<List<Weather>> {
+    override fun getCurrentWeather(): Flow<Weather> {
         return weatherDao.getCurrentWeather()
     }
 
