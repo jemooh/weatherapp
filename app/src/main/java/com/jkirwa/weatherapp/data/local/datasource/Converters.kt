@@ -1,53 +1,44 @@
-package com.jkirwa.weatherapp.data.local.datasource;
+package com.jkirwa.weatherapp.data.local.datasource
 
+import androidx.room.TypeConverter
+import com.google.gson.reflect.TypeToken
+import com.google.gson.Gson
+import java.util.*
 
-import androidx.room.TypeConverter;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.Date;
-import java.util.List;
-
-public abstract class Converters {
+object Converters {
+    @JvmStatic
     @TypeConverter
-    public static Date fromTimestamp(Long value) {
-        return value == null ? null : new Date(value);
+    fun fromTimestamp(value: Long?): Date? {
+        return if (value == null) null else Date(value)
+    }
+
+    @JvmStatic
+    @TypeConverter
+    fun dateToTimestamp(date: Date?): Long? {
+        return date?.time
     }
 
     @TypeConverter
-    public static Long dateToTimestamp(Date date) {
-        return date == null ? null : date.getTime();
+    fun fromInteger(value: String?): List<Int> {
+        val listType = object : TypeToken<List<Int?>?>() {}.type
+        return Gson().fromJson(value, listType)
     }
 
     @TypeConverter
-    public static List<Integer> fromInteger(String value) {
-        Type listType = new TypeToken<List<Integer>>() {
-        }.getType();
-        return new Gson().fromJson(value, listType);
+    fun fromArrayList(list: List<Int?>?): String {
+        val gson = Gson()
+        return gson.toJson(list)
     }
 
     @TypeConverter
-    public static String fromArrayList(List<Integer> list) {
-        Gson gson = new Gson();
-        String json = gson.toJson(list);
-        return json;
-    }
-
-
-    @TypeConverter
-    public static List<String> fromString(String value) {
-        Type listType = new TypeToken<List<String>>() {
-        }.getType();
-        return new Gson().fromJson(value, listType);
+    fun fromString(value: String?): List<String> {
+        val listType = object : TypeToken<List<String?>?>() {}.type
+        return Gson().fromJson(value, listType)
     }
 
     @TypeConverter
-    public static String fromStringArrayList(List<String> list) {
-        Gson gson = new Gson();
-        String json = gson.toJson(list);
-        return json;
+    fun fromStringArrayList(list: List<String?>?): String {
+        val gson = Gson()
+        return gson.toJson(list)
     }
 }
-
