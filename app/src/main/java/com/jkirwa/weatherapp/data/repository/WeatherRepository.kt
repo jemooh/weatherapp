@@ -12,7 +12,7 @@ import javax.inject.Inject
 interface WeatherRepository {
     suspend fun fetchCurrentLocationWeather(lat: String, lon: String)
     suspend fun fetch5dayWeatherForecast(lat: String, lon: String)
-    fun getCurrentWeather(): Flow<List<Weather>>
+    fun getCurrentWeather(): Flow<Weather>
     fun getForecast(): Flow<List<Forecast>>
     suspend fun saveFavouriteCurrentWeather(weather: Weather)
 }
