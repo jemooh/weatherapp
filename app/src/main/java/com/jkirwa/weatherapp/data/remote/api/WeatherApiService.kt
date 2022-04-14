@@ -10,12 +10,17 @@ interface WeatherApiService {
 
 
     @GET("weather")
-    suspend fun getCurrentWeather(@Query("lat") latitude:String,
-                                  @Query("lon") longitude:String
+    suspend fun getCurrentWeather(
+        @Query("lat") latitude: String,
+        @Query("lon") longitude: String,
+        @Query("units") units: String
     ): Response<WeatherResponse>
 
     @GET("forecast")
-    suspend fun fetch5dayWeatherForecast(@Query("lat") latitude:String,
-                                        @Query("lon") longitude:String): Response<ForecastResponse>
+    suspend fun fetch5dayWeatherForecast(
+        @Query("lat") latitude: String,
+        @Query("lon") longitude: String,
+        @Query("units") units: String
+    ): Response<ForecastResponse>
 
 }

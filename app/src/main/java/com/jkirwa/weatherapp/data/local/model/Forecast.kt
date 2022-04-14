@@ -10,6 +10,6 @@ data class Forecast(
     @PrimaryKey
     @NonNull
     val day: String="",
-    val temp: Double?,
+    val temp: Int?,
     val icon: String?
 )

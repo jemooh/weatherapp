@@ -11,6 +11,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import com.jkirwa.weatherapp.data.remote.model.Result
+import com.jkirwa.weatherapp.utils.Constants
 import java.io.IOException
 import java.util.*
 
@@ -20,61 +22,74 @@ internal class WeatherRepositoryImpl(
     private val forecastDao: ForecastDao,
     private val isDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : WeatherRepository {
-    override suspend fun fetchCurrentLocationWeather(lat: String, lon: String) {
-        try {
-            val result = withContext(isDispatcher) {
-                weatherApiService.getCurrentWeather(lat, lon)
-            }
-            if (result.isSuccessful) {
-                result.body()?.apply {
-                    val weather = Weather(
-                        id,
-                        dt,
-                        name,
-                        main?.tempMin,
-                        main?.tempMax,
-                        main?.temp,
-                        coord?.lat,
-                        coord?.lon,
-                        weather?.get(0)?.icon,
-                        weather?.get(0)?.description,
-                        weather?.get(0)?.main,
-                        Date()
-                    )
-                    weatherDao.insertAsync(weather)
+    override suspend fun fetchCurrentLocationWeather(lat: String, lon: String): Result<Boolean> {
+        return withContext(isDispatcher) {
+            try {
+                Result.Loading
+                val units = Constants.UNITS_METRIC
+                val result = weatherApiService.getCurrentWeather(lat, lon, units)
+                if (result.isSuccessful) {
+                    result.body()?.apply {
+                        val weather = Weather(
+                            id,
+                            dt,
+                            name,
+                            main?.tempMin?.toInt(),
+                            main?.tempMax?.toInt(),
+                            main?.temp?.toInt(),
+                            coord?.lat,
+                            coord?.lon,
+                            weather?.get(0)?.icon,
+                            weather?.get(0)?.description,
+                            weather?.get(0)?.main,
+                            Date()
+                        )
+                        weatherDao.insertAsync(weather)
+                    }
+                    Result.Success(true)
+                } else {
+                    Result.Success(false)
+                    Result.Error(Exception(result.errorBody().toString()))
                 }
-
-            } else {
-                Timber.e("Error Occurred")
+            } catch (e: IOException) {
+                Result.Error(Exception("Error Occurred"))
+                e.printStackTrace()
+                Timber.e(e)
             }
-        } catch (e: IOException) {
-            e.printStackTrace()
-            Timber.e(e)
+            Result.Success(false)
         }
+
     }
 
-    override suspend fun fetch5dayWeatherForecast(lat: String, lon: String) {
-        try {
-            val result = withContext(isDispatcher) {
-                weatherApiService.fetch5dayWeatherForecast(lat, lon)
-            }
-            if (result.isSuccessful) {
-                result.body()?.list?.forEach { listItem ->
-                    val forecast = Forecast(
-                        Util.getWeekDayFromUTC(listItem.dt),
-                        listItem.main?.temp,
-                        listItem.weather?.get(0)?.icon
-                    )
-                    forecastDao.insertAsync(forecast)
-                }
+    override suspend fun fetch5dayWeatherForecast(lat: String, lon: String): Result<Boolean> {
+        return withContext(isDispatcher) {
+            try {
+                Result.Loading
+                val units = Constants.UNITS_METRIC
+                val result = weatherApiService.fetch5dayWeatherForecast(lat, lon,units)
+                if (result.isSuccessful) {
+                    result.body()?.list?.forEach { listItem ->
+                        val forecast = Forecast(
+                            Util.getWeekDayFromUTC(listItem.dt),
+                            listItem.main?.temp?.toInt(),
+                            listItem.weather?.get(0)?.icon
+                        )
+                        forecastDao.insertAsync(forecast)
+                    }
 
-            } else {
-                Timber.e("Error Occurred")
+                    Result.Success(true)
+                } else {
+                    Result.Success(false)
+                    Result.Error(Exception(result.errorBody().toString()))
+                }
+            } catch (e: IOException) {
+                Result.Error(Exception("Error Occurred"))
+                e.printStackTrace()
+                Timber.e(e)
             }
-        } catch (e: IOException) {
-            e.printStackTrace()
-            Timber.e(e)
+            Result.Success(false)
         }
+
     }
 
     override fun getCurrentWeather(): Flow<Weather> {

@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.WeatherApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -13,4 +13,33 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+
+
+    <style name="CardTextTitleStyle">
+        <item name="android:textSize">@dimen/text_size_24</item>
+        <item name="android:fontFamily">@font/chirp_medium</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="ListItemTextTitleStyle">
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:fontFamily">@font/chirp_medium</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="ListItemTextBodyStyle">
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:fontFamily">@font/chirp_medium</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="emptyListHeader">
+        <item name="android:textSize">@dimen/text_size_18</item>
+        <item name="android:textColor">@color/textPrimary</item>
+        <item name="android:fontFamily">@font/chirp_medium</item>
+    </style>
+
+
+
 </resources>

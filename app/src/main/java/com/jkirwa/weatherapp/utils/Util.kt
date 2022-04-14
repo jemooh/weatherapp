@@ -3,12 +3,14 @@ package com.jkirwa.weatherapp.utils
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.provider.Settings
 import android.provider.Settings.SettingNotFoundException
 import android.text.TextUtils
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.FragmentActivity
 import com.jkirwa.weatherapp.R
 import java.text.SimpleDateFormat
@@ -21,6 +23,12 @@ internal class Util {
             val dateFormat: Date = Date(timeString.toString().toLong() * 1000)
             val weekday: String = sdf.format(dateFormat)
             return weekday
+        }
+
+        fun getCurrentDayOfTheWeek(): String {
+            val sdf = SimpleDateFormat("EEEE")
+            val d = Date()
+            return sdf.format(d)
         }
 
         fun hasPermissions(
@@ -80,7 +88,7 @@ internal class Util {
             }
         }
 
-        fun isLocationEnabled(context: Context): Boolean {
+        private fun isLocationEnabled(context: Context): Boolean {
             var locationMode = 0
             val locationProviders: String
             return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -100,6 +108,62 @@ internal class Util {
                 )
                 !TextUtils.isEmpty(locationProviders)
             }
+        }
+
+        fun getWeatherIconDrawable(context: Context, weatherIcon: String?): Drawable? {
+            val weatherDrawable: Drawable? = when (weatherIcon) {
+                "01d", "01n" -> ResourcesCompat.getDrawable(
+                    context.resources,
+                    R.drawable.ic_weather_clear_sky,
+                    null
+                )
+                "02d", "02n" -> ResourcesCompat.getDrawable(
+                    context.resources,
+                    R.drawable.ic_weather_few_clouds,
+                    null
+                )
+                "03d", "03n" -> ResourcesCompat.getDrawable(
+                    context.resources,
+                    R.drawable.ic_weather_scatterrd_clouds,
+                    null
+                )
+                "04d", "04n" -> ResourcesCompat.getDrawable(
+                    context.resources,
+                    R.drawable.ic_weather_broken_clouds,
+                    null
+                )
+                "09d", "09n" -> ResourcesCompat.getDrawable(
+                    context.resources,
+                    R.drawable.ic_weather_shower_rain,
+                    null
+                )
+                "10d", "10n" -> ResourcesCompat.getDrawable(
+                    context.resources,
+                    R.drawable.ic_weather_rain,
+                    null
+                )
+                "11d", "11n" -> ResourcesCompat.getDrawable(
+                    context.resources,
+                    R.drawable.ic_weather_thunderstorm,
+                    null
+                )
+                "13d", "13n" -> ResourcesCompat.getDrawable(
+                    context.resources,
+                    R.drawable.ic_weather_snow,
+                    null
+                )
+                "50d", "50n" -> ResourcesCompat.getDrawable(
+                    context.resources,
+                    R.drawable.ic_weather_mist,
+                    null
+                )
+                else -> ResourcesCompat.getDrawable(
+                    context.resources,
+                    R.drawable.ic_weather_clear_sky,
+                    null
+                )
+            }
+            return weatherDrawable
         }
     }
 }

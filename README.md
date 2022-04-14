@@ -14,7 +14,6 @@ Requirements
     * [Flow](https://kotlinlang.org/docs/reference/coroutines/flow.html)
     * [KOIN](https://insert-koin.io/)
     * [Retrofit](https://square.github.io/retrofit/)
-    * [Chucker](https://github.com/ChuckerTeam/chucker)
     * [Jetpack](https://developer.android.com/jetpack)
         * [Lifecycle](https://developer.android.com/topic/libraries/architecture/lifecycle)
         * [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)

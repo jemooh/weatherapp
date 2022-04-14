@@ -3,15 +3,10 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'kotlin-android-extensions'
 }
 
 android {
     compileSdk 32
-
-    buildFeatures {
-        dataBinding true
-    }
 
     defaultConfig {
         applicationId "com.jkirwa.weatherapp"
@@ -36,6 +31,15 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion rootProject.compose_version
+        //kotlinCompilerVersion "1.6.10"
+    }
 }
 
 dependencies {
@@ -44,12 +48,13 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    implementation("androidx.compose.compiler:compiler:$rootProject.compose_version")
 
 
     // Compose dependencies
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0-alpha06"
     implementation "androidx.navigation:navigation-compose:2.5.0-alpha04"
-    implementation "androidx.compose.material:material-icons-extended:$compose_version"
+    implementation "androidx.compose.material:material-icons-extended:$rootProject.compose_version"
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
 
     // Retrofit
@@ -93,8 +98,20 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:17.0.0'
 
 
+    // Compose
+    implementation "androidx.compose.runtime:runtime:$rootProject.compose_version"
+    implementation "androidx.compose.ui:ui:$rootProject.compose_version"
+    implementation "androidx.compose.foundation:foundation:$rootProject.compose_version"
+    implementation "androidx.compose.foundation:foundation-layout:$rootProject.compose_version"
+    implementation "androidx.compose.material:material:$rootProject.compose_version"
+    implementation "androidx.compose.runtime:runtime-livedata:$rootProject.compose_version"
+    implementation "androidx.compose.ui:ui-tooling:$rootProject.compose_version"
+    implementation "com.google.android.material:compose-theme-adapter:$rootProject.compose_version"
+    debugImplementation "androidx.compose.ui:ui-tooling:$rootProject.compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$rootProject.compose_version"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation 'com.google.accompanist:accompanist-drawablepainter:0.23.1'
 }
