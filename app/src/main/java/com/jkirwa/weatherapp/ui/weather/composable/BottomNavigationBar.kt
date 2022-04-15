@@ -6,17 +6,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import com.jkirwa.weatherapp.R
-import com.jkirwa.weatherapp.ui.weather.MainActivity
-import com.jkirwa.weatherapp.ui.weather.theme.Blue200
 import com.jkirwa.weatherapp.ui.weather.theme.WeatherAppTheme
 
 @Composable
@@ -71,7 +66,7 @@ fun Navigation(navController: NavHostController) {
             FavouriteLocationWeather()
         }
         composable(NavigationItem.Map.route) {
-            FavouriteLocationWeather()
+            FavouriteWeatherMapView()
         }
 
     }

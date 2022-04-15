@@ -21,6 +21,7 @@
         <entry key="app/src/main/res/drawable/ic_weather_clear_day.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.20729166666666668" />
         <entry key="app/src/main/res/layout/dialog_location_alert.xml" value="0.2866847826086957" />
+        <entry key="app/src/main/res/layout/map.xml" value="0.2760416666666667" />
         <entry key="app/src/main/res/layout/toolbar_main.xml" value="0.2866847826086957" />
       </map>
     </option>

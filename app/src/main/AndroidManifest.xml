@@ -34,7 +34,12 @@
         </activity>
 
         <service
-            android:name=".utils.LocationService" />
+            android:name=".utils.LocationService"
+            tools:ignore="Instantiatable" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyC7D71wAFB9YU7xTvm6HwfOjP3ZP_i8ZEU" />
     </application>
 
 </manifest>
