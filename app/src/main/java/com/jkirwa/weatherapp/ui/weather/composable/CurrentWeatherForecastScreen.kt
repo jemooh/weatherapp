@@ -1,7 +1,5 @@
 package com.jkirwa.weatherapp.ui.weather.composable
 
-import android.annotation.SuppressLint
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,23 +13,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.jkirwa.weatherapp.ui.weather.theme.Blue200
-import com.jkirwa.weatherapp.ui.weather.theme.Yellow500
-import com.jkirwa.weatherapp.R
-import com.jkirwa.weatherapp.ui.weather.viewmodel.WeatherViewModel
-import com.jkirwa.weatherapp.utils.Constants.DEGREE_CELSIUS_SYMBOL
-import com.jkirwa.weatherapp.utils.Util.Companion.getCurrentDayOfTheWeek
-import com.jkirwa.weatherapp.utils.Util.Companion.getWeatherIconDrawable
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import com.jkirwa.weatherapp.data.local.model.FavouriteWeather
 import com.jkirwa.weatherapp.data.local.model.Forecast
+import com.jkirwa.weatherapp.ui.weather.theme.Blue200
+import com.jkirwa.weatherapp.ui.weather.theme.Yellow500
 import com.jkirwa.weatherapp.ui.weather.viewmodel.FavouriteWeatherViewModel
+import com.jkirwa.weatherapp.ui.weather.viewmodel.WeatherViewModel
+import com.jkirwa.weatherapp.utils.Constants.DEGREE_CELSIUS_SYMBOL
+import com.jkirwa.weatherapp.utils.Util.Companion.getCurrentDayOfTheWeek
+import com.jkirwa.weatherapp.utils.Util.Companion.getDateLatestUpdated
 import com.jkirwa.weatherapp.utils.Util.Companion.getFavouriteDrawable
+import com.jkirwa.weatherapp.utils.Util.Companion.getWeatherIconDrawable
 import org.koin.androidx.compose.getViewModel
 import java.util.*
 
@@ -45,6 +41,8 @@ fun CurrentLocationWeather() {
     val favouriteWeatherViewModel = getViewModel<FavouriteWeatherViewModel>()
 
     Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top,
         modifier = Modifier
             .background(color = Blue200)
             .fillMaxWidth()
@@ -132,7 +130,7 @@ fun CurrentLocationWeather() {
                 )
 
                 Text(
-                    text = uiState.weather?.description.toString().toUpperCase(),
+                    text = uiState.weather?.description.toString().uppercase(Locale.getDefault()),
                     style = MaterialTheme.typography.h6,
                     textAlign = TextAlign.Center
                 )
@@ -167,7 +165,7 @@ fun CurrentLocationWeather() {
                         .padding(end = 16.dp)
                 ) {
                     Temp(uiState.weather?.minTemp.toString(), "min")
-                    Temp(uiState.weather?.temp.toString(), "current")
+                    Temp(uiState.weather?.temp.toString(), "Current")
                     Temp(uiState.weather?.maxTemp.toString(), "max")
                 }
                 Spacer(Modifier.size(16.dp))
@@ -191,6 +189,21 @@ fun CurrentLocationWeather() {
                         })
                 }
             }
+        }
+
+        if (uiState.weather?.dt != null) {
+            Text(
+                modifier = Modifier
+                    .padding(top = 24.dp)
+                    .padding(end = 16.dp)
+                    .padding(start = 16.dp),
+                text = String.format(
+                    "Last updated %s",
+                    getDateLatestUpdated(uiState.weather.dt)
+                ),
+                style = MaterialTheme.typography.body2,
+                textAlign = TextAlign.Center
+            )
         }
     }
 }

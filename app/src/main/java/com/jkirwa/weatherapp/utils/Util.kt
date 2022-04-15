@@ -1,9 +1,12 @@
 package com.jkirwa.weatherapp.utils
 
+import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.provider.Settings.SettingNotFoundException
@@ -13,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.FragmentActivity
 import com.jkirwa.weatherapp.R
+import com.jkirwa.weatherapp.data.local.datasource.SharedPreferences
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -31,12 +35,32 @@ internal class Util {
             val weekday: String = sdf.format(dateFormat)
             return weekday
         }
+
         fun getMinMonthFromUTC(timeString: Int?): String {
             val sdf = SimpleDateFormat("d MMM")
             val dateFormat: Date = Date(timeString.toString().toLong() * 1000)
             val month: String = sdf.format(dateFormat)
             return month
         }
+
+        fun getDateLatestUpdated(timeString: Int?): String {
+            val sdf = SimpleDateFormat("hh:mm a")
+            val dateFormat: Date = Date(timeString.toString().toLong() * 1000)
+            val dateTime: String = sdf.format(dateFormat)
+            return dateTime
+        }
+
+/*
+        fun getDateLatestUpdated(date: Date?): String? {
+            val cal = Calendar.getInstance()
+            cal.time = date
+            val threeHourBack = cal.time
+            val mSDF = SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss",
+                Locale.getDefault()
+            )
+            return mSDF.format(threeHourBack)
+        }*/
 
         fun getCurrentDayOfTheWeek(): String {
             val sdf = SimpleDateFormat("EEEE")
@@ -120,6 +144,58 @@ internal class Util {
                     Settings.Secure.LOCATION_PROVIDERS_ALLOWED
                 )
                 !TextUtils.isEmpty(locationProviders)
+            }
+        }
+
+        private fun displayNeverAskAgainDialog(context: Context) {
+            val builder =
+                AlertDialog.Builder(context)
+            builder.setTitle(context.getString(R.string.label_location_title))
+            builder.setMessage(
+                context.getString(R.string.label_location_message)
+            )
+            builder.setCancelable(false)
+            builder.setPositiveButton(
+                context.getString(R.string.btn_permit_manually)
+            ) { dialog, _ ->
+                dialog.dismiss()
+                val intent = Intent()
+                intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                val uri =
+                    Uri.fromParts("package", context.packageName, null)
+                intent.data = uri
+                context.startActivity(intent)
+            }
+            builder.setNegativeButton("Cancel", null)
+            builder.show()
+        }
+
+        fun checkIfLocationPermissionIsEnabled(
+            context: Context,
+            sharedPreferences: SharedPreferences
+        ) {
+            if (!hasPermissions(context, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (sharedPreferences.neverAskAgainSelected(
+                            context as Activity,
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                        )
+                    ) {
+                        displayNeverAskAgainDialog(context)
+                    } else {
+                        ActivityCompat.requestPermissions(
+                            context,
+                            Constants.PERMISSIONS_LOCATION,
+                            Constants.PERMISSION_ALL
+                        )
+                    }
+                } else {
+                    ActivityCompat.requestPermissions(
+                        context as Activity,
+                        Constants.PERMISSIONS_LOCATION,
+                        Constants.PERMISSION_ALL
+                    )
+                }
             }
         }
 
