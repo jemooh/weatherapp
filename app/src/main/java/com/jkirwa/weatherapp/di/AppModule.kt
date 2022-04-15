@@ -7,6 +7,7 @@ import com.jkirwa.weatherapp.data.local.datasource.WeatherDatabase
 import com.jkirwa.weatherapp.data.remote.api.WeatherApiService
 import com.jkirwa.weatherapp.data.repository.WeatherRepository
 import com.jkirwa.weatherapp.data.repository.WeatherRepositoryImpl
+import com.jkirwa.weatherapp.ui.weather.viewmodel.FavouriteWeatherViewModel
 import com.jkirwa.weatherapp.ui.weather.viewmodel.WeatherViewModel
 import com.jkirwa.weatherapp.utils.Constants
 import org.koin.android.ext.koin.androidApplication
@@ -41,16 +42,26 @@ val appModule = module {
         get<WeatherDatabase>().forecastDao
     }
 
+    single {
+        get<WeatherDatabase>().favouriteWeatherDao
+    }
+
 
     factory<WeatherRepository> {
         WeatherRepositoryImpl(
             weatherApiService = get(),
-            weatherDao = get(), forecastDao = get()
+            weatherDao = get(),
+            forecastDao = get(),
+            favouriteWeatherDao = get()
         )
     }
 
     viewModel {
         WeatherViewModel(weatherRepository = get())
+    }
+
+    viewModel {
+        FavouriteWeatherViewModel(weatherRepository = get())
     }
     single {
         androidApplication().getSharedPreferences("PREFERENCES", Context.MODE_PRIVATE)
