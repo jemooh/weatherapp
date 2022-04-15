@@ -3,18 +3,20 @@
 Requirements
 ----
 
-- Create a weather application tp display the current weather at the user's location and a 5-day
+- Create a weather application to display the current weather at the user's location and a 5-day
   forecast.
+  - The application connects to the [opemweathermap API](https://openweathermap.org/current) to
+    collect weather information
 
 ### How it's built
 
 * Technologies used
-    * [Kotlin](https://kotlinlang.org/)
-    * [Compose](https://developer.android.com/jetpack/compose)
-    * [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html)
-    * [Flow](https://kotlinlang.org/docs/reference/coroutines/flow.html)
-    * [KOIN Dependency](https://insert-koin.io/)
-    * [Retrofit](https://square.github.io/retrofit/)
+  * [Kotlin](https://kotlinlang.org/)
+  * [Compose](https://developer.android.com/jetpack/compose)
+  * [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html)
+  * [Flow](https://kotlinlang.org/docs/reference/coroutines/flow.html)
+  * [KOIN Dependency](https://insert-koin.io/)
+  * [Retrofit](https://square.github.io/retrofit/)
     * [Jetpack](https://developer.android.com/jetpack)
         * [Lifecycle](https://developer.android.com/topic/libraries/architecture/lifecycle)
         * [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
@@ -33,8 +35,6 @@ Requirements
   * [Fastlane](https://fastlane.tools)
 
 ### Weather app screenshots
-
-### Current Weather by User Location
 
 | <img src="current_weather.jpg" height="480">
 ||  <img src="weather_favourite_list.jpg" height="480">
