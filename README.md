@@ -34,11 +34,8 @@ Requirements
 
 ### Weather app screenshots
 
-| Current Weather by User Location | | --------------- | ---------------- |
-| <img src="current_weather.jpg" height="480"> |
+# Current Weather by User Location
 
-| Saved Favourite weather list | | --------------- | ---------------- |
-|  <img src="weather_favourite_list.jpg" height="480"> |
-
-| Saved Favourite weather on Google map | | --------------- | ---------------- |
-| <img src="weather_favourite_map.jpg" height="480"> | 
+| <img src="current_weather.jpg" height="480">
+||  <img src="weather_favourite_list.jpg" height="480">
+|| <img src="weather_favourite_map.jpg" height="480"> |
