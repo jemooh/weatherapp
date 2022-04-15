@@ -14,17 +14,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.jkirwa.weatherapp.R
-import androidx.compose.ui.res.painterResource
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import com.jkirwa.weatherapp.data.local.model.FavouriteWeather
-import com.jkirwa.weatherapp.ui.weather.theme.Blue200
 import com.jkirwa.weatherapp.ui.weather.viewmodel.FavouriteWeatherViewModel
-import com.jkirwa.weatherapp.ui.weather.viewmodel.WeatherViewModel
 import com.jkirwa.weatherapp.utils.Constants
 import com.jkirwa.weatherapp.utils.Util
 import com.jkirwa.weatherapp.utils.Util.Companion.getMinMonthFromUTC
