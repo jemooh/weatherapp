@@ -48,7 +48,8 @@ class WeatherViewModel(private val weatherRepository: WeatherRepository) :
                 }
                 is Result.Error -> {
                     _state.value = state.value.copy(
-                        isErrorRefreshingCurrentWeather = true,currentWeatherErrorMessage = result.exception.message.toString()
+                        isErrorRefreshingCurrentWeather = true,
+                        currentWeatherErrorMessage = result.exception.message.toString()
                     )
                 }
             }
@@ -58,23 +59,24 @@ class WeatherViewModel(private val weatherRepository: WeatherRepository) :
     fun fetch5dayWeatherForecast(lat: String, lon: String) {
         viewModelScope.launch(Dispatchers.IO) {
             weatherRepository.fetch5dayWeatherForecast(lat, lon)
-             when (val result = weatherRepository.fetch5dayWeatherForecast(lat, lon)) {
-                 is Result.Loading -> {
-                     _state.value = state.value.copy(
-                         isRefreshingForecast = true
-                     )
-                 }
-                 is Result.Success -> {
-                     _state.value = state.value.copy(
-                         isSuccessRefreshingForecast = true
-                     )
-                 }
-                 is Result.Error -> {
-                     _state.value = state.value.copy(
-                         isErrorRefreshingForecast = true,forecastErrorMessage = result.exception.message.toString()
-                     )
-                 }
-             }
+            when (val result = weatherRepository.fetch5dayWeatherForecast(lat, lon)) {
+                is Result.Loading -> {
+                    _state.value = state.value.copy(
+                        isRefreshingForecast = true
+                    )
+                }
+                is Result.Success -> {
+                    _state.value = state.value.copy(
+                        isSuccessRefreshingForecast = true
+                    )
+                }
+                is Result.Error -> {
+                    _state.value = state.value.copy(
+                        isErrorRefreshingForecast = true,
+                        forecastErrorMessage = result.exception.message.toString()
+                    )
+                }
+            }
         }
     }
 
@@ -90,7 +92,7 @@ class WeatherViewModel(private val weatherRepository: WeatherRepository) :
 
     private fun getForecast() {
         getForecastWeatherJob?.cancel()
-        weatherRepository.getForecast().onEach { forecast ->
+        getForecastWeatherJob = weatherRepository.getForecast().onEach { forecast ->
             _state.value = state.value.copy(
                 forecast = forecast
             )

@@ -6,6 +6,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -26,15 +28,21 @@ import com.jkirwa.weatherapp.utils.Constants.DEGREE_CELSIUS_SYMBOL
 import com.jkirwa.weatherapp.utils.Util.Companion.getCurrentDayOfTheWeek
 import com.jkirwa.weatherapp.utils.Util.Companion.getWeatherIconDrawable
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
+import com.jkirwa.weatherapp.data.local.model.FavouriteWeather
+import com.jkirwa.weatherapp.data.local.model.Forecast
+import com.jkirwa.weatherapp.ui.weather.viewmodel.FavouriteWeatherViewModel
+import com.jkirwa.weatherapp.utils.Util.Companion.getFavouriteDrawable
 import org.koin.androidx.compose.getViewModel
+import java.util.*
 
-@SuppressLint("FlowOperatorInvokedInComposition")
 @Preview
 @Composable
 fun CurrentLocationWeather() {
     val context = LocalContext.current
     val weatherViewModel = getViewModel<WeatherViewModel>()
     val uiState = weatherViewModel.state.value
+
+    val favouriteWeatherViewModel = getViewModel<FavouriteWeatherViewModel>()
 
     Column(
         modifier = Modifier
@@ -69,8 +77,34 @@ fun CurrentLocationWeather() {
                     .align(Alignment.TopEnd)
                     .padding(top = 32.dp)
                     .padding(end = 32.dp)
-                    .clickable { },
-                painter = painterResource(R.drawable.ic_favorite_border_black_24dp),
+                    .clickable {
+                        val weather = uiState.weather
+                        weather?.apply {
+                            val favouriteWeather = FavouriteWeather(
+                                id,
+                                UUID
+                                    .randomUUID()
+                                    .toString(),
+                                dt,
+                                locationName = locationName,
+                                minTemp = minTemp,
+                                maxTemp = maxTemp,
+                                temp = temp,
+                                lat,
+                                lon,
+                                icon,
+                                description,
+                                true
+                            )
+                            favouriteWeatherViewModel.saveFavouriteWeather(favouriteWeather)
+                        }
+                    },
+                painter = rememberDrawablePainter(
+                    getFavouriteDrawable(
+                        context,
+                        uiState.weather?.isFavourite
+                    )
+                ),
                 contentDescription = null,
             )
             Column(
@@ -145,18 +179,16 @@ fun CurrentLocationWeather() {
                     text = ""
                 )
                 Spacer(Modifier.size(32.dp))
-                if (uiState.forecast.isNotEmpty()) {
-                    uiState.forecast.forEach { forecast ->
-                        if (forecast.day != getCurrentDayOfTheWeek()) {
-                            Row() {
-                                Forecast(
-                                    day = forecast.day,
-                                    icon = forecast.icon.toString(),
-                                    temp = forecast.temp.toString()
-                                )
+                LazyColumn(
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+                ) {
+                    items(
+                        items = uiState.forecast,
+                        itemContent = {
+                            if (it.day != getCurrentDayOfTheWeek()) {
+                                ForecastListItems(forecast = it)
                             }
-                        }
-                    }
+                        })
                 }
             }
         }
@@ -181,7 +213,7 @@ fun Temp(temp: String, label: String) {
 
 
 @Composable
-fun Forecast(day: String, icon: String, temp: String) {
+fun ForecastListItems(forecast: Forecast) {
     val context = LocalContext.current
     Box(
         Modifier
@@ -191,18 +223,21 @@ fun Forecast(day: String, icon: String, temp: String) {
             .padding(start = 16.dp)
             .padding(top = 8.dp)
     ) {
-        Text(day, modifier = Modifier.align(Alignment.CenterStart))
+        Text(forecast.day, modifier = Modifier.align(Alignment.CenterStart))
         Image(
             modifier = Modifier.align(Alignment.Center),
             painter = rememberDrawablePainter(
                 drawable = getWeatherIconDrawable(
                     context = context,
-                    icon
+                    forecast.icon
                 )
             ),
             contentDescription = null,
         )
-        Text(temp + DEGREE_CELSIUS_SYMBOL, modifier = Modifier.align(Alignment.CenterEnd))
+        Text(
+            forecast.temp.toString() + DEGREE_CELSIUS_SYMBOL,
+            modifier = Modifier.align(Alignment.CenterEnd)
+        )
 
     }
 }

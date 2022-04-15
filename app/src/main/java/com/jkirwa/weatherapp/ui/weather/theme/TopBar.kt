@@ -25,28 +25,6 @@ fun TopBar() {
     TopAppBar(
         title = { Text("Weather App") }
     )
-
-      Box {
-          Image(
-              modifier = Modifier.fillMaxSize(),
-              painter = painterResource(R.drawable.background_toolbar_translucent),
-              contentDescription = "background_image",
-              contentScale = ContentScale.FillBounds
-          )
-          Scaffold(   // Make the background transparent
-              topBar = {
-                  TopAppBar(
-                      modifier = Modifier
-                          .fillMaxHeight(0.2f),
-                      title = {
-                          Text(text = "Dashboard")
-                      }
-                  )
-              },
-          ) {
-              // Scaffold content
-          }
-      }
 }
 
 @Preview

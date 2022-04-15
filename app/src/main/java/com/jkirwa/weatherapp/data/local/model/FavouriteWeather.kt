@@ -6,10 +6,11 @@ import androidx.room.PrimaryKey
 import com.jkirwa.weatherapp.data.remote.model.WeatherItem
 import java.util.*
 
-@Entity(indices = [Index(value = ["locationName"], unique = true)])
-data class Weather(
-    @PrimaryKey
+@Entity(indices = [Index(value = ["weatherId","temp","description"], unique = true)])
+data class FavouriteWeather(
+    @PrimaryKey(autoGenerate = true)
     val id: Int? = 0,
+    val weatherId: String,
     val dt: Int?,
     val locationName: String?,
     val minTemp: Int?,
@@ -19,7 +20,5 @@ data class Weather(
     val lon: Double?,
     val icon: String?,
     val description: String?,
-    val mainDescription: String?,
-    val dateUpdated: Date,
-    var isFavourite: Boolean = false
+    var isFavouriteWeather: Boolean = false
 )

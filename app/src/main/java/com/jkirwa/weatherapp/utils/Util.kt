@@ -25,6 +25,19 @@ internal class Util {
             return weekday
         }
 
+        fun getMinWeekDayFromUTC(timeString: Int?): String {
+            val sdf = SimpleDateFormat("EEE")
+            val dateFormat: Date = Date(timeString.toString().toLong() * 1000)
+            val weekday: String = sdf.format(dateFormat)
+            return weekday
+        }
+        fun getMinMonthFromUTC(timeString: Int?): String {
+            val sdf = SimpleDateFormat("d MMM")
+            val dateFormat: Date = Date(timeString.toString().toLong() * 1000)
+            val month: String = sdf.format(dateFormat)
+            return month
+        }
+
         fun getCurrentDayOfTheWeek(): String {
             val sdf = SimpleDateFormat("EEEE")
             val d = Date()
@@ -160,6 +173,22 @@ internal class Util {
                 else -> ResourcesCompat.getDrawable(
                     context.resources,
                     R.drawable.ic_weather_clear_sky,
+                    null
+                )
+            }
+            return weatherDrawable
+        }
+
+        fun getFavouriteDrawable(context: Context, status: Boolean?): Drawable? {
+            val weatherDrawable: Drawable? = when (status) {
+                true -> ResourcesCompat.getDrawable(
+                    context.resources,
+                    R.drawable.ic_favorite_black_24dp,
+                    null
+                )
+                else -> ResourcesCompat.getDrawable(
+                    context.resources,
+                    R.drawable.ic_favorite_border_black_24dp,
                     null
                 )
             }

@@ -1,5 +1,6 @@
 package com.jkirwa.weatherapp.data.repository
 
+import com.jkirwa.weatherapp.data.local.model.FavouriteWeather
 import com.jkirwa.weatherapp.data.local.model.Forecast
 import com.jkirwa.weatherapp.data.local.model.Weather
 import com.jkirwa.weatherapp.data.remote.api.WeatherApiService
@@ -15,5 +16,6 @@ interface WeatherRepository {
     suspend fun fetch5dayWeatherForecast(lat: String, lon: String): Result<Boolean>
     fun getCurrentWeather(): Flow<Weather>
     fun getForecast(): Flow<List<Forecast>>
-    suspend fun saveFavouriteCurrentWeather(weather: Weather)
+    fun getFavouriteWeather(): Flow<List<FavouriteWeather>>
+    suspend fun saveFavouriteCurrentWeather(weather: FavouriteWeather)
 }

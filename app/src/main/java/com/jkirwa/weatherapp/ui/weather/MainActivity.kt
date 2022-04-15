@@ -12,13 +12,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import com.jkirwa.weatherapp.R
 import com.jkirwa.weatherapp.data.local.datasource.SharedPreferences
@@ -31,7 +34,17 @@ import com.jkirwa.weatherapp.utils.Util.Companion.hasPermissions
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.jkirwa.weatherapp.ui.weather.composable.BottomNavigationBar
 import com.jkirwa.weatherapp.ui.weather.composable.CurrentLocationWeather
+import com.jkirwa.weatherapp.ui.weather.composable.FavouriteLocationWeather
+import com.jkirwa.weatherapp.ui.weather.composable.Navigation
+import com.jkirwa.weatherapp.ui.weather.theme.TopBar
 import com.jkirwa.weatherapp.ui.weather.theme.WeatherAppTheme
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -43,47 +56,30 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            WeatherAppTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background) {
-                    Scaffold(
-                        content = { ShowWeatherScreen() }
-                    )
-                }
-            }
+            MainScreen()
         }
         fetchRemoteWeather()
     }
 
 
-
     @Composable
-    fun ShowWeatherScreen() {
-        Column(
-            modifier = Modifier.verticalScroll(rememberScrollState())
+    fun MainScreen() {
+        val navController = rememberNavController()
+        Scaffold(
+            bottomBar = { BottomNavigationBar(navController) }
         ) {
-            CurrentLocationWeather()
+            Navigation(navController = navController)
         }
     }
 
     @Preview(showBackground = true)
     @Composable
-    fun ShowWeatherScreenPreview() {
-        WeatherAppTheme {
-            ShowWeatherScreen()
-        }
-    }
-
-    @Preview(showBackground = true)
-    @Composable
-    fun ShowWeatherScreenDarModePreview() {
-        WeatherAppTheme(darkTheme = true) {
-            ShowWeatherScreen()
-        }
+    fun MainScreenPreview() {
+        MainScreen()
     }
 
 
-    private fun fetchRemoteWeather(){
+    private fun fetchRemoteWeather() {
         val lat = sharedPreferences.getLocation(this)?.latitude.toString()
         val lon = sharedPreferences.getLocation(this)?.longitude.toString()
         weatherViewModel.fetchCurrentWeather(lat, lon)
@@ -101,7 +97,6 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
         stopService(Intent(this, LocationService::class.java))
     }
-
 
 
     private fun displayNeverAskAgainDialog() {

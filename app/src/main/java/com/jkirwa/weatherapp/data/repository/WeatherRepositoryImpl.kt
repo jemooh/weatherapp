@@ -1,7 +1,9 @@
 package com.jkirwa.weatherapp.data.repository
 
+import com.jkirwa.weatherapp.data.local.dao.FavouriteWeatherDao
 import com.jkirwa.weatherapp.data.local.dao.ForecastDao
 import com.jkirwa.weatherapp.data.local.dao.WeatherDao
+import com.jkirwa.weatherapp.data.local.model.FavouriteWeather
 import com.jkirwa.weatherapp.data.local.model.Forecast
 import com.jkirwa.weatherapp.data.local.model.Weather
 import com.jkirwa.weatherapp.data.remote.api.WeatherApiService
@@ -20,6 +22,7 @@ internal class WeatherRepositoryImpl(
     private val weatherApiService: WeatherApiService,
     private val weatherDao: WeatherDao,
     private val forecastDao: ForecastDao,
+    private val favouriteWeatherDao: FavouriteWeatherDao,
     private val isDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : WeatherRepository {
     override suspend fun fetchCurrentLocationWeather(lat: String, lon: String): Result<Boolean> {
@@ -100,7 +103,11 @@ internal class WeatherRepositoryImpl(
         return forecastDao.getForecast()
     }
 
-    override suspend fun saveFavouriteCurrentWeather(weather: Weather) {
-        weatherDao.insertAsync(weather)
+    override fun getFavouriteWeather(): Flow<List<FavouriteWeather>> {
+        return favouriteWeatherDao.getFavouriteWeather()
+    }
+
+    override suspend fun saveFavouriteCurrentWeather(weather: FavouriteWeather) {
+        favouriteWeatherDao.insertAsync(weather)
     }
 }
