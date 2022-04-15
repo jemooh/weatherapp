@@ -2,8 +2,9 @@
 
 Requirements
 ----
-- Create a weather application tp display the current weather at the user's location and a 5-day forecast.
 
+- Create a weather application tp display the current weather at the user's location and a 5-day
+  forecast.
 
 ### How it's built
 
@@ -36,8 +37,8 @@ Requirements
 | Current Weather by User Location | | --------------- | ---------------- |
 | <img src="current_weather.jpg" height="480"> |
 
-| Saved Favourite weather list | | ---------------- | ---------------- |
-|  <img src="weather_favourite_list.png" height="480"> |
+| Saved Favourite weather list | | --------------- | ---------------- |
+|  <img src="weather_favourite_list.jpg" height="480"> |
 
-| Saved Favourite weather on Google map | | ------------ | ------------ |
-| <img src="weather_favourite_map.png" height="480"> | 
+| Saved Favourite weather on Google map | | --------------- | ---------------- |
+| <img src="weather_favourite_map.jpg" height="480"> | 
