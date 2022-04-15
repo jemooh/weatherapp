@@ -34,7 +34,7 @@ Requirements
 
 ### Weather app screenshots
 
-# Current Weather by User Location
+### Current Weather by User Location
 
 | <img src="current_weather.jpg" height="480">
 ||  <img src="weather_favourite_list.jpg" height="480">
