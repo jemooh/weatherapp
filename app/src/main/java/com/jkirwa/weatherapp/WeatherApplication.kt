@@ -2,15 +2,14 @@ package com.jkirwa.weatherapp
 
 import android.app.Application
 import com.jkirwa.weatherapp.di.appModule
+import javax.annotation.Nullable
 import org.jetbrains.annotations.NotNull
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.core.error.KoinAppAlreadyStartedException
 import timber.log.Timber
-import javax.annotation.Nullable
 
-
-class WeatherApplication : Application(){
+class WeatherApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         initTimber()

@@ -1,37 +1,25 @@
 package com.jkirwa.weatherapp.ui.weather.viewmodel
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jkirwa.weatherapp.data.local.model.Forecast
 import com.jkirwa.weatherapp.data.local.model.Weather
+import com.jkirwa.weatherapp.data.remote.model.Result
 import com.jkirwa.weatherapp.data.repository.WeatherRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import com.jkirwa.weatherapp.data.remote.model.Result
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class WeatherViewModel(private val weatherRepository: WeatherRepository) :
     ViewModel() {
-    private val _state = mutableStateOf(WeatherForecastState())
-    val state: State<WeatherForecastState> = _state
+    private val _state = MutableStateFlow(WeatherForecastState())
+    val state: StateFlow<WeatherForecastState> = _state
 
     private var getCurrentWeatherJob: Job? = null
     private var getForecastWeatherJob: Job? = null
 
-    init {
-        getCurrentWeather()
-        getForecast()
-    }
 
     fun fetchCurrentWeather(lat: String, lon: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -80,7 +68,7 @@ class WeatherViewModel(private val weatherRepository: WeatherRepository) :
         }
     }
 
-    private fun getCurrentWeather() {
+    fun getCurrentWeather() {
         getCurrentWeatherJob?.cancel()
         getCurrentWeatherJob = weatherRepository.getCurrentWeather()
             .onEach { weather_ ->
@@ -90,16 +78,14 @@ class WeatherViewModel(private val weatherRepository: WeatherRepository) :
             }.launchIn(viewModelScope)
     }
 
-    private fun getForecast() {
+    fun getForecast() {
         getForecastWeatherJob?.cancel()
         getForecastWeatherJob = weatherRepository.getForecast().onEach { forecast ->
             _state.value = state.value.copy(
                 forecast = forecast
             )
-
         }.launchIn(viewModelScope)
     }
-
 }
 
 data class WeatherForecastState(

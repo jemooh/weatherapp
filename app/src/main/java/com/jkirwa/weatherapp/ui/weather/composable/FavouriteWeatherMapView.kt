@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.viewinterop.AndroidView
@@ -21,12 +22,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
-
 @Composable
 fun FavouriteWeatherMapView() {
     val mapView = rememberMapViewWithLifecycle()
     val favouriteWeatherViewModel = getViewModel<FavouriteWeatherViewModel>()
-    val uiState = favouriteWeatherViewModel.state.value
+    favouriteWeatherViewModel.getFavouriteWeather()
+    val uiState = favouriteWeatherViewModel.state.collectAsState().value
     Column(
         modifier = Modifier
             .fillMaxHeight()
@@ -61,5 +62,4 @@ fun FavouriteWeatherMapView() {
             }
         }
     }
-
 }

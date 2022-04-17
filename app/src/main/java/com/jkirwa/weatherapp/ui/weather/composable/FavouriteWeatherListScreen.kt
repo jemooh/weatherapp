@@ -10,6 +10,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,12 +27,12 @@ import com.jkirwa.weatherapp.utils.Util.Companion.getMinMonthFromUTC
 import com.jkirwa.weatherapp.utils.Util.Companion.getMinWeekDayFromUTC
 import org.koin.androidx.compose.getViewModel
 
-
 @Preview
 @Composable
 fun FavouriteLocationWeather() {
     val favouriteWeatherViewModel = getViewModel<FavouriteWeatherViewModel>()
-    val uiState = favouriteWeatherViewModel.state.value
+    favouriteWeatherViewModel.getFavouriteWeather()
+    val uiState = favouriteWeatherViewModel.state.collectAsState().value
     if (uiState.favouriteWeather.isEmpty()) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -47,7 +48,6 @@ fun FavouriteLocationWeather() {
                 textAlign = TextAlign.Center,
                 text = "Your weather favourite list is Empty"
             )
-
         }
     } else {
         LazyColumn(
@@ -57,12 +57,11 @@ fun FavouriteLocationWeather() {
                 items = uiState.favouriteWeather,
                 itemContent = {
                     FavouriteListItem(favouriteWeather = it)
-                })
+                }
+            )
         }
     }
-
 }
-
 
 @Composable
 fun FavouriteListItem(favouriteWeather: FavouriteWeather) {
@@ -80,7 +79,8 @@ fun FavouriteListItem(favouriteWeather: FavouriteWeather) {
             modifier = Modifier.padding(15.dp)
         ) {
             Row(
-                horizontalArrangement = Arrangement.SpaceBetween, modifier =
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier =
                 Modifier
                     .wrapContentHeight()
                     .fillMaxWidth()
@@ -142,7 +142,6 @@ fun FavouriteListItem(favouriteWeather: FavouriteWeather) {
                         style = MaterialTheme.typography.h6
                     )
                 }
-
             }
             Text(
                 text = favouriteWeather.description.toString(),
@@ -153,5 +152,4 @@ fun FavouriteListItem(favouriteWeather: FavouriteWeather) {
             )
         }
     }
-
 }

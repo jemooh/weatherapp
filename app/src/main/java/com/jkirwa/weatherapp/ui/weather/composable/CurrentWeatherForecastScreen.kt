@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,15 +29,17 @@ import com.jkirwa.weatherapp.utils.Util.Companion.getCurrentDayOfTheWeek
 import com.jkirwa.weatherapp.utils.Util.Companion.getDateLatestUpdated
 import com.jkirwa.weatherapp.utils.Util.Companion.getFavouriteDrawable
 import com.jkirwa.weatherapp.utils.Util.Companion.getWeatherIconDrawable
-import org.koin.androidx.compose.getViewModel
 import java.util.*
+import org.koin.androidx.compose.getViewModel
 
 @Preview
 @Composable
 fun CurrentLocationWeather() {
     val context = LocalContext.current
     val weatherViewModel = getViewModel<WeatherViewModel>()
-    val uiState = weatherViewModel.state.value
+    weatherViewModel.getCurrentWeather()
+    weatherViewModel.getForecast()
+    val uiState = weatherViewModel.state.collectAsState().value
 
     val favouriteWeatherViewModel = getViewModel<FavouriteWeatherViewModel>()
 
@@ -134,10 +137,7 @@ fun CurrentLocationWeather() {
                     style = MaterialTheme.typography.h6,
                     textAlign = TextAlign.Center
                 )
-
-
             }
-
         }
 
         Box(
@@ -186,7 +186,8 @@ fun CurrentLocationWeather() {
                             if (it.day != getCurrentDayOfTheWeek()) {
                                 ForecastListItems(forecast = it)
                             }
-                        })
+                        }
+                    )
                 }
             }
         }
@@ -208,7 +209,6 @@ fun CurrentLocationWeather() {
     }
 }
 
-
 @Composable
 fun Temp(temp: String, label: String) {
     Column(
@@ -223,7 +223,6 @@ fun Temp(temp: String, label: String) {
         )
     }
 }
-
 
 @Composable
 fun ForecastListItems(forecast: Forecast) {
@@ -251,6 +250,5 @@ fun ForecastListItems(forecast: Forecast) {
             forecast.temp.toString() + DEGREE_CELSIUS_SYMBOL,
             modifier = Modifier.align(Alignment.CenterEnd)
         )
-
     }
 }

@@ -1,6 +1,5 @@
 package com.jkirwa.weatherapp.data.remote.model
 
-
 import com.google.gson.annotations.SerializedName
 
 data class ForecastResponse(
@@ -114,7 +113,6 @@ data class Main(
     @field:SerializedName("temp_max")
     val tempMax: Double? = null
 )
-
 
 data class Coord(
 

@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     @Composable
     fun MainScreen() {
         val navController = rememberNavController()
@@ -50,15 +49,14 @@ class MainActivity : AppCompatActivity() {
         MainScreen()
     }
 
-
     private fun fetchRemoteWeather() {
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
+                    this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
         ) {
             return
         }
@@ -83,8 +81,4 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         fetchRemoteWeather()
     }
-
 }
-
-
-
