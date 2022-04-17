@@ -14,7 +14,7 @@ internal val testWeatherResponseResult =
 
 internal val testForecastResponseResult =
     WeatherForecastState(
-        isSuccessRefreshingForecast = true
+        isSuccessRefreshingCurrentWeather = true, isSuccessRefreshingForecast = true
     )
 
 internal val testFetchFavouriteWeatherResult =
@@ -40,7 +40,7 @@ val currentWeather =
 
 val weatherForecastList = (0..5).map {
     Forecast(
-        temp = 13, icon = "14n"
+        day = "Monday", dt = 234324, temp = 13, icon = "14n"
     )
 }
 
