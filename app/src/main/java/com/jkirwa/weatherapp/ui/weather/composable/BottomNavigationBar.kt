@@ -51,16 +51,15 @@ fun BottomNavigationBar(navController: NavController) {
     }
 }
 
-
 @Composable
 fun Navigation(navController: NavHostController) {
     NavHost(navController, startDestination = NavigationItem.Home.route) {
         composable(NavigationItem.Home.route) {
             WeatherAppTheme {
-               Surface(color = MaterialTheme.colors.background) {
-                   CurrentLocationWeather()
-               }
-           }
+                Surface(color = MaterialTheme.colors.background) {
+                    CurrentLocationWeather()
+                }
+            }
         }
         composable(NavigationItem.Favourite.route) {
             FavouriteLocationWeather()
@@ -68,11 +67,8 @@ fun Navigation(navController: NavHostController) {
         composable(NavigationItem.Map.route) {
             FavouriteWeatherMapView()
         }
-
     }
 }
-
-
 
 sealed class NavigationItem(var route: String, var icon: Int, var title: String) {
     object Home : NavigationItem("home", R.drawable.ic_baseline_home_24, "Home")

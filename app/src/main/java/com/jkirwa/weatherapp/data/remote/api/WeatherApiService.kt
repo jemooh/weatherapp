@@ -1,13 +1,11 @@
 package com.jkirwa.weatherapp.data.remote.api
 
-import com.jkirwa.weatherapp.data.local.model.Forecast
 import com.jkirwa.weatherapp.data.remote.model.ForecastResponse
 import com.jkirwa.weatherapp.data.remote.model.WeatherResponse
 import retrofit2.Response
 import retrofit2.http.*
 
 interface WeatherApiService {
-
 
     @GET("weather")
     suspend fun getCurrentWeather(
@@ -22,5 +20,4 @@ interface WeatherApiService {
         @Query("lon") longitude: String,
         @Query("units") units: String
     ): Response<ForecastResponse>
-
 }

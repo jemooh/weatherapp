@@ -9,7 +9,8 @@ import androidx.room.PrimaryKey
 data class Forecast(
     @PrimaryKey
     @NonNull
-    val day: String="",
+    val day: String = "",
+    val dt: Int?,
     val temp: Int?,
     val icon: String?
 )

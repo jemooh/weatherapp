@@ -46,7 +46,6 @@ val appModule = module {
         get<WeatherDatabase>().favouriteWeatherDao
     }
 
-
     factory<WeatherRepository> {
         WeatherRepositoryImpl(
             weatherApiService = get(),

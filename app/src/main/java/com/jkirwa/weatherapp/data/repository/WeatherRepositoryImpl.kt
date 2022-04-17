@@ -7,16 +7,16 @@ import com.jkirwa.weatherapp.data.local.model.FavouriteWeather
 import com.jkirwa.weatherapp.data.local.model.Forecast
 import com.jkirwa.weatherapp.data.local.model.Weather
 import com.jkirwa.weatherapp.data.remote.api.WeatherApiService
+import com.jkirwa.weatherapp.data.remote.model.Result
+import com.jkirwa.weatherapp.utils.Constants
 import com.jkirwa.weatherapp.utils.Util
+import java.io.IOException
+import java.util.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import com.jkirwa.weatherapp.data.remote.model.Result
-import com.jkirwa.weatherapp.utils.Constants
-import java.io.IOException
-import java.util.*
 
 internal class WeatherRepositoryImpl(
     private val weatherApiService: WeatherApiService,
@@ -61,7 +61,6 @@ internal class WeatherRepositoryImpl(
             }
             Result.Success(false)
         }
-
     }
 
     override suspend fun fetch5dayWeatherForecast(lat: String, lon: String): Result<Boolean> {
@@ -69,11 +68,12 @@ internal class WeatherRepositoryImpl(
             try {
                 Result.Loading
                 val units = Constants.UNITS_METRIC
-                val result = weatherApiService.fetch5dayWeatherForecast(lat, lon,units)
+                val result = weatherApiService.fetch5dayWeatherForecast(lat, lon, units)
                 if (result.isSuccessful) {
                     result.body()?.list?.forEach { listItem ->
                         val forecast = Forecast(
                             Util.getWeekDayFromUTC(listItem.dt),
+                            listItem.dt,
                             listItem.main?.temp?.toInt(),
                             listItem.weather?.get(0)?.icon
                         )
@@ -92,7 +92,6 @@ internal class WeatherRepositoryImpl(
             }
             Result.Success(false)
         }
-
     }
 
     override fun getCurrentWeather(): Flow<Weather> {

@@ -3,7 +3,6 @@ package com.jkirwa.weatherapp.data.local.model
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.jkirwa.weatherapp.data.remote.model.WeatherItem
 import java.util.*
 
 @Entity(indices = [Index(value = ["locationName"], unique = true)])

@@ -10,7 +10,6 @@ import com.jkirwa.weatherapp.data.local.model.FavouriteWeather
 import com.jkirwa.weatherapp.data.local.model.Forecast
 import com.jkirwa.weatherapp.data.local.model.Weather
 
-
 @Database(
     entities = [Weather::class, Forecast::class, FavouriteWeather::class],
     version = 1

@@ -7,7 +7,6 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.google.gson.Gson
 import com.jkirwa.weatherapp.utils.Constants
 
 class SharedPreferences
@@ -42,7 +41,6 @@ constructor(private val settings: SharedPreferences) {
         return prevShouldShowStatus != currShouldShowStatus
     }
 
-
     fun setShouldShowStatus(
         context: Context,
         permission: String?
@@ -66,5 +64,4 @@ constructor(private val settings: SharedPreferences) {
         )
         return genPrefs.getBoolean(permission, false)
     }
-
 }

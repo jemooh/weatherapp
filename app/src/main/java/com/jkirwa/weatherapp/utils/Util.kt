@@ -86,7 +86,6 @@ internal class Util {
             return true
         }
 
-
         private fun checkIfLocationIsEnabledDialog(context: Context) {
             val builder =
                 AlertDialog.Builder(context)

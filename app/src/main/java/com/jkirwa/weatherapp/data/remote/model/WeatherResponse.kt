@@ -1,6 +1,5 @@
 package com.jkirwa.weatherapp.data.remote.model
 
-
 import com.google.gson.annotations.SerializedName
 
 data class WeatherResponse(
@@ -22,4 +21,4 @@ data class WeatherResponse(
 
     @field:SerializedName("dt")
     val dt: Int? = null
-    )
+)

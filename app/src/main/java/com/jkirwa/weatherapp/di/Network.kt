@@ -1,13 +1,12 @@
 package com.jkirwa.weatherapp.di
 
 import com.jkirwa.weatherapp.BuildConfig
+import java.io.IOException
+import java.util.concurrent.TimeUnit
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
-import java.util.concurrent.TimeUnit
-
 
 /**
  * createNetworkClient
@@ -20,7 +19,6 @@ fun createNetworkClient(
         httpClient(apiKey),
         baseUrl
     )
-
 
 private class BasicAuthInterceptor(val apiKey: String) : Interceptor {
     @Throws(IOException::class)
@@ -53,11 +51,9 @@ fun httpClient(apiKey: String): OkHttpClient {
     return clientBuilder.build()
 }
 
-
 private fun retrofitClient(okHttpClient: OkHttpClient, baseUrl: String): Retrofit =
     Retrofit.Builder()
         .baseUrl(baseUrl)
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-
